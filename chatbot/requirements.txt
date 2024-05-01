@@ -9,3 +9,6 @@ tiktoken
 pypdf
 loguru
 docx2txt
+streamlit
+langchain-chroma
+langchain-community
