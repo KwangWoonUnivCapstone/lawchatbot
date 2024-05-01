@@ -1,5 +1,8 @@
 from langchain.document_loaders import DirectoryLoader
 from langchain.embeddings import HuggingFaceEmbeddings
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_core.runnables import RunnablePassthrough
+from langchain_chroma import Chroma
 
 loader = DirectoryLoader('/content/TS_1.판결문/1.Training/원천데이터/TS_1.판결문/02.형사/2020')
 docs = loader.load()
