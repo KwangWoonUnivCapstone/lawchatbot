@@ -47,13 +47,13 @@ def main():
         process = st.button("Process")
     if process:
         if not openai_api_key:
-            st.info("Please add your OpenAI API key to continue.")
+            st.info("openai api 키를 입력해주세요.")
             st.stop()
-        files_text = get_text(uploaded_files)
-        text_chunks = get_text_chunks(files_text)
-        vetorestore = get_vectorstore(text_chunks)
+        # files_text = get_text(uploaded_files)
+        # text_chunks = get_text_chunks(files_text)
+        # vetorestore = get_vectorstore(text_chunks)
      
-        st.session_state.conversation = get_conversation_chain(vetorestore,openai_api_key) 
+        st.session_state.conversation = get_conversation_chain(openai_api_key) 
 
         st.session_state.processComplete = True
 
@@ -83,6 +83,13 @@ def main():
                     st.session_state.chat_history = result['chat_history']
                 response = result['answer']
                 source_documents = result['source_documents']
+                with get_openai_callback() as cb:
+                    if cb is not None:
+                        # 콜백 함수 사용
+                        st.session_state.chat_history = result['chat_history']
+                    else:
+                        # 콜백 함수가 None인 경우의 처리 로직
+                        st.error("콜백 함수를 로드하는데 실패했습니다.")
 
                 st.markdown(response)
                 with st.expander("참고 문서 확인"):
