@@ -78,16 +78,15 @@ def main():
         )
 
     if process:
-        if not openai_api_key:
-            st.info("알맞은 OpenAI API key를 입력해주세요.")
-            st.stop()
         files_text = get_text(uploaded_files)
         text_chunks = get_text_chunks(files_text)
         vetorestore = get_vectorstore(text_chunks)
-     
-        st.session_state.conversation = get_conversation_chain(vetorestore,openai_api_key) 
+    if not openai_api_key:
+            st.info("알맞은 OpenAI API key를 입력해주세요.")
+            st.stop()
+    st.session_state.conversation = get_conversation_chain(vetorestore,openai_api_key) 
 
-        st.session_state.processComplete = True
+    st.session_state.processComplete = True
 
     if "messages" not in st.session_state:
         st.session_state["messages"] = [{"role": "assistant", "content": "안녕하세요! 법률 고민이 있으면 언제든 물어봐주세요!"}]
